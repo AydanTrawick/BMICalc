@@ -141,7 +141,7 @@ def send_bmi_email(recipient_email, first_name, bmi, category, color, tip, healt
 
 
 # --- Header ---
-st.markdown("## ⚖️ Aydan's BMI Predictor")
+st.markdown("## ⚖️ BMI Predictor")
 st.markdown("Enter your details below to calculate your Body Mass Index.")
 st.divider()
 
