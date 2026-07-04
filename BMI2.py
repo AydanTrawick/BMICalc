@@ -141,9 +141,8 @@ def send_bmi_email(recipient_email, first_name, bmi, category, color, tip, healt
 
 
 # --- Header ---
-st.markdown("## ⚖️ BMI Calculator")
-st.markdown("-Enter your details below to calculate your Body Mass Index")
-st.markdown("-Get free workout plans at the end")
+st.markdown("## ⚖️ Aydan's BMI Predictor")
+st.markdown("Enter your details below to calculate your Body Mass Index.")
 st.divider()
 
 # --- User Info ---
@@ -260,28 +259,30 @@ if st.session_state.bmi is not None:
         category = st.session_state.category
         st.markdown("### Suggested Workout Plans")
 
+        BASE_URL = "https://aydansbmicalc.streamlit.app"
+
         if category == "Underweight":
             workout_links = [
-                ("📋 3 Day Full Body Routine", "/FullBody"),
-                ("📋 Upper & Lower", "/UpperLower"),
-                ("📋 Push Pull Legs", "/PPL"),
+                ("📋 3 Day Full Body Routine", f"{BASE_URL}/FullBody"),
+                ("📋 Upper & Lower", f"{BASE_URL}/UpperLower"),
+                ("📋 Push Pull Legs", f"{BASE_URL}/PPL"),
             ]
         elif category == "Normal Weight":
             workout_links = [
-                ("💪 Lift + Cardio Hybrid", "/Hybrid"),
-                ("📋 3 Day Full Body Routine", "/FullBody"),
-                ("📋 Upper & Lower", "/UpperLower"),
-                ("📋 Push Pull Legs", "/PPL"),
+                ("💪 Lift + Cardio Hybrid", f"{BASE_URL}/Hybrid"),
+                ("📋 3 Day Full Body Routine", f"{BASE_URL}/FullBody"),
+                ("📋 Upper & Lower", f"{BASE_URL}/UpperLower"),
+                ("📋 Push Pull Legs", f"{BASE_URL}/PPL"),
             ]
         elif category == "Overweight":
             workout_links = [
-                ("💪 Lift + Cardio Hybrid", "/Hybrid"),
-                ("📋 Push Pull Legs", "/PPL"),
+                ("💪 Lift + Cardio Hybrid", f"{BASE_URL}/Hybrid"),
+                ("📋 Push Pull Legs", f"{BASE_URL}/PPL"),
             ]
         else:
             workout_links = [
-                ("🏃 Cardio + Strength", "/Cardio"),
-                ("💪 Lift + Cardio Hybrid", "/Hybrid"),
+                ("🏃 Cardio + Strength", f"{BASE_URL}/Cardio"),
+                ("💪 Lift + Cardio Hybrid", f"{BASE_URL}/Hybrid"),
             ]
 
         st.session_state.workout_links = workout_links
