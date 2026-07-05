@@ -28,6 +28,10 @@ if "show_email_form" not in st.session_state:
 if "workout_links" not in st.session_state:
     st.session_state.workout_links = []
 
+#-- Base URL---
+BASE_URL = "https://aydansbmicalc.streamlit.app"
+
+
 # --- Page Config ---
 st.set_page_config(
     page_title="BMI Predictor",
@@ -142,6 +146,12 @@ def send_bmi_email(recipient_email, first_name, bmi, category, color, tip, healt
 
 # --- Header ---
 st.markdown("## ⚖️ BMI Predictor")
+
+st.divider()
+st.markdown("Click below for full recovery guide ⬇︎")
+st.page_link("pages/Recovery.py", label="🎉 4th of July/Hangover Recovery Guide")
+st.divider()
+
 st.markdown("Enter your details below to calculate your Body Mass Index.")
 st.divider()
 
@@ -259,8 +269,7 @@ if st.session_state.bmi is not None:
         category = st.session_state.category
         st.markdown("### Suggested Workout Plans")
 
-        BASE_URL = "https://aydansbmicalc.streamlit.app"
-
+       
         if category == "Underweight":
             workout_links = [
                 ("📋 3 Day Full Body Routine", f"{BASE_URL}/FullBody"),
