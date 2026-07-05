@@ -155,7 +155,7 @@ with col3:
     date = st.date_input("Date of Birth", max_value=datetime.date.today(), min_value=datetime.date(1900, 1, 1))
 
 # --- Unit Toggle ---
-unit = st.radio("Units", ["Metric (kg / cm)", "Imperial (lbs / ft & in)"], horizontal=True)
+unit = st.radio("Units", [ "Imperial (lbs / ft & in)", "Metric (kg / cm)"], horizontal=True)
 st.markdown("")
 
 # --- Inputs ---
