@@ -135,7 +135,7 @@ not_fda_approved = pd.DataFrame(
 st.dataframe(
     not_fda_approved,
     hide_index=True,
-    use_container_width=True,
+    width="stretch",
 )
 
 st.divider()
@@ -145,7 +145,7 @@ st.divider()
 enhancers = [
     {
         "name": "Testosterone",
-        "image": "TEST.png",
+        "image": "TEST.PNG",
         "reason": "Build muscle, boost energy, and support sex drive.",
         "fact": (
             "Testosterone is one of the most extensively studied hormones "
@@ -161,7 +161,7 @@ enhancers = [
     },
     {
         "name": "Retatrutide",
-        "image": "RETA.png",
+        "image": "RETA.PNG",
         "reason": (
             "Investigational treatment for weight loss and metabolic conditions."
         ),
@@ -178,7 +178,7 @@ enhancers = [
     },
     {
         "name": "Anavar",
-        "image": "VAR.png",
+        "image": "VAR.PNG",
         "reason": (
             "Often discussed for maintaining lean mass, strength, and a drier "
             "appearance."
@@ -198,7 +198,7 @@ enhancers = [
     },
     {
         "name": "Trenbolone",
-        "image": "TEST.png",
+        "image": "TREN.PNG",
         "reason": (
             "Commonly discussed for rapid muscle gain, strength, and fat loss."
         ),
@@ -215,7 +215,7 @@ enhancers = [
     },
     {
         "name": "Human Growth Hormone (HGH)",
-        "image": "HGH.png",
+        "image": "HGH.PNG",
         "reason": (
             "Used medically for certain growth-hormone disorders and discussed "
             "for muscle growth, recovery, and anti-aging."
@@ -235,7 +235,7 @@ enhancers = [
     },
     {
         "name": "GHK-Cu",
-        "image": "GHK.png",
+        "image": "GHK.PNG",
         "reason": (
             "Commonly discussed for skin appearance, wound healing, and hair care."
         ),
@@ -253,7 +253,7 @@ enhancers = [
     },
     {
         "name": "Semaglutide",
-        "image": "SEMA.png",
+        "image": "SEMA.PNG",
         "reason": (
             "Used for blood-sugar control and, in certain formulations, "
             "long-term weight management."
@@ -271,7 +271,7 @@ enhancers = [
     },
     {
         "name": "Dianabol",
-        "image": "DIANABOL.png",
+        "image": "DIANABOL.PNG",
         "reason": (
             "Commonly discussed for rapid increases in muscle size and strength."
         ),
@@ -288,7 +288,7 @@ enhancers = [
     },
     {
         "name": "SARMs",
-        "image": "SARMS.png",
+        "image": "SARMS.PNG",
         "reason": (
             "Marketed as compounds that may produce muscle-building effects "
             "with fewer androgenic effects than traditional steroids."
@@ -306,7 +306,7 @@ enhancers = [
     },
     {
         "name": "Winstrol",
-        "image": "WIN.png",
+        "image": "WIN.PNG",
         "reason": (
             "Commonly discussed for strength, a leaner appearance, and less "
             "water retention."
@@ -340,7 +340,7 @@ def display_enhancer(enhancer: dict, number: int) -> None:
             st.image(
                 str(image_path),
                 caption=enhancer["name"],
-                use_container_width=True,
+                width="stretch",
             )
         else:
             st.markdown(
