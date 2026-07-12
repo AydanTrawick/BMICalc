@@ -94,7 +94,7 @@ IMAGE_FOLDER = PROJECT_FOLDER / "images"
 
 
 st.page_link("BMI2.py", label="← Back to Home")
-st.title("🧬 10 Trending Performance Enhancers")
+st.title("🧬 10 Trending Enhancers")
 
 st.markdown(
     """

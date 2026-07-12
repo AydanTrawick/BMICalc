@@ -65,7 +65,7 @@ st.markdown(
 st.markdown('<p class="section-label">Latest read</p>', unsafe_allow_html=True)
 st.page_link(
     "pages/Enhancers.py",
-    label="10 Trending Performance Enhancers",
+    label="10 Trending Enhancers",
     icon="🧬",
 )
 st.caption("A new guide covering commonly discussed hormones, peptides, steroids, and performance-enhancing compounds.")
