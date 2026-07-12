@@ -12,7 +12,6 @@ st.set_page_config(
 )
 
 
-
 # CUSTOM CSS
 
 st.markdown(
@@ -94,7 +93,8 @@ IMAGE_FOLDER = PROJECT_FOLDER / "images"
 
 
 
-st.title("🧬 10 Trending Performance Enhancers")
+st.page_link("BMI2.py", label="← Back to Home")
+st.markdown("##🧬 10 Trending Performance Enhancers")
 
 st.markdown(
     """

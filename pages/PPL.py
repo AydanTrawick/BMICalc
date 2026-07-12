@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Push-Pull-Legs", page_icon="💪", layout="centered")
 
-st.page_link("BMI2.py", label= "← Back to BMI Calculator")
+st.page_link("BMI2.py", label="← Back to Home")
 
 #-- Header -- 
 st.markdown("### Push-Pull-Legs")

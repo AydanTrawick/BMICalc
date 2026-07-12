@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Low Volume Strength", page_icon="💪", layout="centered")
 
-st.page_link("BMI2.py", label= "← Back to BMI Calculator")
+st.page_link("BMI2.py", label="← Back to Home")
 
 # --- Header ---
 st.markdown("## 💪 Low Volume Strength")
