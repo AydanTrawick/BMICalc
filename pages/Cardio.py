@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Cardio + Strength", page_icon="🏃", layout="centered")
 
-st.page_link("BMI2.py", label="← Back to Home")
+st.page_link("Toolkit.py", label="← Back to Home")
 
 # --- Header ---
 st.markdown("## 🏃 Cardio + Strength")
