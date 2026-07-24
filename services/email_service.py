@@ -26,14 +26,14 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
             @media (prefers-color-scheme: dark) {{
                 .hero-box, .hero-box * {{ color: #ffffff !important; }}
                 .hero-box {{
-                    background: linear-gradient(135deg, #0e1f19, #1a5b3d) !important;
+                    background: linear-gradient(135deg, #2bcfc1, #1ba4a8) !important;
                 }}
             }}
         </style>
     </head>
     <body>
     <div style="font-family: Arial, sans-serif; color: white;">
-        <div class="hero-box" style="background: linear-gradient(135deg, #0e1f19, #1a5b3d);
+        <div class="hero-box" style="background: linear-gradient(135deg, #2bcfc1, #1ba4a8);
                     color: #ffffff !important; padding: 24px; border-radius: 16px;">
             <div style="font-size: 12px; letter-spacing: 1.5px;
                         text-transform: uppercase; color: #ffffff !important;">
@@ -47,7 +47,7 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
             </p>
         </div>
 
-        <h2 style="color: #218f57; margin-top: 24px;">
+        <h2 style="color: #2bcfc1; margin-top: 24px;">
             Estimated daily targets
         </h2>
         <table style="border-collapse: collapse; width: 100%;">
@@ -73,12 +73,12 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
             </tr>
         </table>
 
-        <p style="margin-top: 20px;">
+        <p style="margin-top: 20px; color: #e6faf8;">
             This plan covers <strong>{day_count} day(s)</strong> with an
             estimated grocery total of <strong>${total:,.2f}</strong>.
         </p>
 
-        <p>
+        <p style="color: #e6faf8;">
             Your complete meal-by-meal plan, ingredients, instructions,
             and grocery list are attached to this email as a
             <strong>PDF</strong>. Open the attachment to download and
