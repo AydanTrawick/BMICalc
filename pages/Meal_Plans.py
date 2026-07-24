@@ -421,7 +421,7 @@ def display_meal_plan(plan: dict[str, Any]) -> None:
 # ---------------------------------------------------------
 
 st.markdown("<div style='margin-top: 45px;'></div>", unsafe_allow_html=True)
-st.page_link("Toolkit.py", label="⬅ Back to Home")
+st.page_link("BMI2.py", label="⬅ Back to Home")
 st.markdown(
     """
     <div class="meal-planner-hero">

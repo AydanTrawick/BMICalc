@@ -94,7 +94,7 @@ IMAGE_FOLDER = PROJECT_FOLDER / "images"
 
 st.markdown("<div style='margin-top: 45px;'></div>", unsafe_allow_html=True)
 
-st.page_link("Toolkit.py", label="← Back to Home")
+st.page_link("BMI2.py", label="← Back to Home")
 st.title("🧬 10 Trending Enhancers")
 
 st.markdown(

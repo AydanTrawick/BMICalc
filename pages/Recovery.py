@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Recovery Guide", page_icon="🤕", layout="centered")
 
-st.page_link("Toolkit.py", label="← Back to Home")
+st.page_link("BMI2.py", label="← Back to Home")
 
 st.markdown("## 🤕 So You Had a Big Night...")
 st.markdown("No judgment here. Let's get you back to a functioning human.")

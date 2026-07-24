@@ -145,7 +145,7 @@ def send_bmi_email(recipient_email, first_name, bmi, category, color, tip, healt
 
 
 # --- Header ---
-st.page_link("Toolkit.py", label="← Back to Home")
+st.page_link("BMI2.py", label="← Back to Home")
 
 st.markdown("## ⚖️ BMI Predictor")
 
