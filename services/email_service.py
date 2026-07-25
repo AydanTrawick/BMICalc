@@ -23,17 +23,17 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
         <meta name="color-scheme" content="light dark">
         <meta name="supported-color-schemes" content="light dark">
         <style>
-            @media (prefers-color-scheme: dark) {{
+            @media (prefers-color-scheme: light) {{
                 .hero-box, .hero-box * {{ color: #ffffff !important; }}
                 .hero-box {{
-                    background: linear-gradient(135deg, #2bcfc1, #1ba4a8) !important;
+                    background: #4fa8e0 !important;
                 }}
             }}
         </style>
     </head>
     <body>
     <div style="font-family: Arial, sans-serif; color: white;">
-        <div class="hero-box" style="background: linear-gradient(135deg, #2bcfc1, #1ba4a8);
+        <div class="hero-box" style="background: #4fa8e0;
                     color: #ffffff !important; padding: 24px; border-radius: 16px;">
             <div style="font-size: 12px; letter-spacing: 1.5px;
                         text-transform: uppercase; color: #ffffff !important;">
@@ -47,38 +47,38 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
             </p>
         </div>
 
-        <h2 style="color: #2bcfc1; margin-top: 24px;">
+        <h2 style="color: #4fa8e0; margin-top: 24px;">
             Estimated daily targets
         </h2>
         <table style="border-collapse: collapse; width: 100%;">
-            <tr style="background: #1c6e8c color: white;">
+            <tr style="background: #1c6e8c color: #4fa8e0;">
                 <th style="padding: 8px; text-align: left;">Calories</th>
                 <th style="padding: 8px; text-align: left;">Protein</th>
                 <th style="padding: 8px; text-align: left;">Carbs</th>
                 <th style="padding: 8px; text-align: left;">Fat</th>
             </tr>
             <tr>
-                <td style="padding: 8px; border: 1px solid #e1e8e4;">
+                <td style="padding: 8px; border: 1px solid #4fa8e0;">
                     {targets.get("calories", 0):,.0f}
                 </td>
-                <td style="padding: 8px; border: 1px solid #e1e8e4;">
+                <td style="padding: 8px; border: 1px solid #4fa8e0;">
                     {targets.get("protein_g", 0):,.0f} g
                 </td>
-                <td style="padding: 8px; border: 1px solid #e1e8e4;">
+                <td style="padding: 8px; border: 1px solid #4fa8e0;">
                     {targets.get("carbs_g", 0):,.0f} g
                 </td>
-                <td style="padding: 8px; border: 1px solid #e1e8e4;">
+                <td style="padding: 8px; border: 1px solid #4fa8e0;">
                     {targets.get("fat_g", 0):,.0f} g
                 </td>
             </tr>
         </table>
 
-        <p style="margin-top: 20px; color: #e6faf8;">
+        <p style="margin-top: 20px; color: #4fa8e0;">
             This plan covers <strong>{day_count} day(s)</strong> with an
             estimated grocery total of <strong>${total:,.2f}</strong>.
         </p>
 
-        <p style="color: #f0f5f4;">
+        <p style="color: #4fa8e0;">
             Your complete meal-by-meal plan, ingredients, instructions,
             and grocery list are attached to this email as a
             <strong>PDF</strong>. Open the attachment to download and
