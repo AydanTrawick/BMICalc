@@ -51,7 +51,7 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
             Estimated daily targets
         </h2>
         <table style="border-collapse: collapse; width: 100%;">
-            <tr style="background: #0e1f19; color: white;">
+            <tr style="background: #1c6e8c color: white;">
                 <th style="padding: 8px; text-align: left;">Calories</th>
                 <th style="padding: 8px; text-align: left;">Protein</th>
                 <th style="padding: 8px; text-align: left;">Carbs</th>
