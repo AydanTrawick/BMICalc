@@ -78,7 +78,7 @@ def build_meal_plan_email_html(plan: dict[str, Any]) -> str:
             estimated grocery total of <strong>${total:,.2f}</strong>.
         </p>
 
-        <p style="color: #e6faf8;">
+        <p style="color: #f0f5f4;">
             Your complete meal-by-meal plan, ingredients, instructions,
             and grocery list are attached to this email as a
             <strong>PDF</strong>. Open the attachment to download and
