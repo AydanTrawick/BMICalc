@@ -1,0 +1,46 @@
+# Keep the same dark palette for system, light, and dark theme selections.
+[theme]
+base = "dark"
+primaryColor = "#ff4b4b"
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#262730"
+textColor = "#fafafa"
+linkColor = "#7dd3fc"
+borderColor = "#475569"
+codeBackgroundColor = "#172033"
+dataframeHeaderBackgroundColor = "#262730"
+
+[theme.sidebar]
+backgroundColor = "#262730"
+secondaryBackgroundColor = "#0e1117"
+textColor = "#fafafa"
+
+[theme.light]
+primaryColor = "#ff4b4b"
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#262730"
+textColor = "#fafafa"
+linkColor = "#7dd3fc"
+borderColor = "#475569"
+codeBackgroundColor = "#172033"
+dataframeHeaderBackgroundColor = "#262730"
+
+[theme.light.sidebar]
+backgroundColor = "#262730"
+secondaryBackgroundColor = "#0e1117"
+textColor = "#fafafa"
+
+[theme.dark]
+primaryColor = "#ff4b4b"
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#262730"
+textColor = "#fafafa"
+linkColor = "#7dd3fc"
+borderColor = "#475569"
+codeBackgroundColor = "#172033"
+dataframeHeaderBackgroundColor = "#262730"
+
+[theme.dark.sidebar]
+backgroundColor = "#262730"
+secondaryBackgroundColor = "#0e1117"
+textColor = "#fafafa"

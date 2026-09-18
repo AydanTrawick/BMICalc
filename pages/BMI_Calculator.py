@@ -4,33 +4,9 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# --- Initialize session state defaults ---
-if "bmi" not in st.session_state:
-    st.session_state.bmi = None
-if "color" not in st.session_state:
-    st.session_state.color = "#34d399"
-if "category" not in st.session_state:
-    st.session_state.category = None
-if "tip" not in st.session_state:
-    st.session_state.tip = ""
-if "healthy_low" not in st.session_state:
-    st.session_state.healthy_low = None
-if "healthy_high" not in st.session_state:
-    st.session_state.healthy_high = None
-if "weight_unit" not in st.session_state:
-    st.session_state.weight_unit = "kg"
-if "first_name" not in st.session_state:
-    st.session_state.first_name = ""
-if "show_workouts" not in st.session_state:
-    st.session_state.show_workouts = False
-if "show_email_form" not in st.session_state:
-    st.session_state.show_email_form = False
-if "workout_links" not in st.session_state:
-    st.session_state.workout_links = []
-
-#-- Base URL---
-BASE_URL = "https://aydansbmicalc.streamlit.app"
-
+from services.ui import render_chat_widget
+from services.tracking import frame, log_controls, validate, prepare_log, append_records, StorageError
+from services.guides import render_guides
 
 # --- Page Config ---
 st.set_page_config(
@@ -39,14 +15,20 @@ st.set_page_config(
     layout="centered"
 )
 
+from services.browser_auth import restore_session
+restore_session()
+
+st.sidebar.caption("This app is an educational tool, not medical advice.")
+
+
 # --- Custom Styles ---
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-        .main { background-color: #f8f9fb; }
+        .main { background-color: #0e1117; }
         .bmi-card {
-            background: white;
+            background: #172033; color: #f8fafc;
             border-radius: 16px;
             padding: 2rem;
             box-shadow: 0 2px 12px rgba(0,0,0,0.07);
@@ -64,8 +46,8 @@ st.markdown("""
         }
         .range-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: #9ca3af; font-weight: 500; }
         .tip-box {
-            background: #f0f9ff; border-left: 4px solid #38bdf8; border-radius: 8px;
-            padding: 0.9rem 1.1rem; font-size: 0.9rem; color: #0369a1; margin-top: 1rem;
+            background: #172b3a; border-left: 4px solid #38bdf8; border-radius: 8px;
+            padding: 0.9rem 1.1rem; font-size: 0.9rem; color: #7dd3fc; margin-top: 1rem;
         }
         h1 { font-weight: 700 !important; letter-spacing: -0.02em !important; }
         .stSlider > div { padding-top: 0.2rem; }
@@ -145,6 +127,36 @@ def send_bmi_email(recipient_email, first_name, bmi, category, color, tip, healt
 
 
 # --- Header ---
+prepare_log('bmi_log')
+# --- Initialize session state defaults ---
+if "bmi" not in st.session_state:
+    st.session_state.bmi = None
+if "color" not in st.session_state:
+    st.session_state.color = "#34d399"
+if "category" not in st.session_state:
+    st.session_state.category = None
+if "tip" not in st.session_state:
+    st.session_state.tip = ""
+if "healthy_low" not in st.session_state:
+    st.session_state.healthy_low = None
+if "healthy_high" not in st.session_state:
+    st.session_state.healthy_high = None
+if "weight_unit" not in st.session_state:
+    st.session_state.weight_unit = "kg"
+if "first_name" not in st.session_state:
+    st.session_state.first_name = ""
+if "show_workouts" not in st.session_state:
+    st.session_state.show_workouts = False
+if "show_email_form" not in st.session_state:
+    st.session_state.show_email_form = False
+if "workout_links" not in st.session_state:
+    st.session_state.workout_links = []
+
+#-- Base URL---
+BASE_URL = "https://aydansbmicalc.streamlit.app"
+
+
+
 st.page_link("BMI2.py", label="← Back to Home")
 
 st.markdown("## ⚖️ BMI Predictor")
@@ -157,47 +169,30 @@ st.divider()
 st.markdown("Enter your details below to calculate your Body Mass Index.")
 st.divider()
 
-# --- User Info ---
-col1, col2, col3 = st.columns(3)
-with col1:
-    first_name = st.text_input("First Name")
-with col2:
-    last_name = st.text_input("Last Name")
-with col3:
-    date = st.date_input("Date of Birth", max_value=datetime.date.today(), min_value=datetime.date(1900, 1, 1))
-
-# --- Unit Toggle ---
-unit = st.radio("Units", [ "Imperial (lbs / ft & in)", "Metric (kg / cm)"], horizontal=True)
-st.markdown("")
-
-# --- Inputs ---
-if unit == "Metric (kg / cm)":
-    col1, col2 = st.columns(2)
-    with col1:
-        weight_kg = st.number_input("Weight (kg)", min_value=1.0, max_value=300.0, value=70.0, step=0.5)
-    with col2:
-        height_cm = st.number_input("Height (cm)", min_value=50.0, max_value=250.0, value=170.0, step=0.5)
-    height_m = height_cm / 100
-    weight_for_calc = weight_kg
-else:
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        weight_lbs = st.number_input("Weight (lbs)", min_value=1.0, max_value=660.0, value=154.0, step=1.0)
-    with col2:
-        height_ft = st.number_input("Height (ft)", min_value=1, max_value=8, value=5, step=1)
-    with col3:
-        height_in = st.number_input("Inches", min_value=0, max_value=11, value=7, step=1)
-    total_inches = (height_ft * 12) + height_in
-    height_m = total_inches * 0.0254
-    weight_for_calc = weight_lbs * 0.453592
-
-st.markdown("")
+st.caption("Standard adult BMI bands. This calculator handles heights of 100–250 cm and weights of 20–500 kg. Adult bands do not apply to children or pregnancy.")
+unit = st.radio("Units", ["Imperial (lbs / ft & in)", "Metric (kg / cm)"], horizontal=True)
+with st.form("bmi_inputs"):
+    first_name = st.text_input("First Name (optional)")
+    if unit == "Metric (kg / cm)":
+        col1, col2 = st.columns(2)
+        weight_for_calc = col1.number_input("Weight (kg)", value=70.0, step=0.5)
+        height_m = col2.number_input("Height (cm)", value=170.0, step=0.5) / 100
+    else:
+        col1, col2, col3 = st.columns(3)
+        weight_for_calc = col1.number_input("Weight (lbs)", value=154.0, step=1.0) * 0.45359237
+        height_ft = col2.number_input("Height (ft)", value=5, step=1)
+        height_in = col3.number_input("Inches", min_value=0, max_value=11, value=7, step=1)
+        height_m = (height_ft * 12 + height_in) * 0.0254
+    calculate = st.form_submit_button("Calculate BMI", use_container_width=True, type="primary")
 
 # --- Calculate Button ---
 # Only saves to session state, never resets show_workouts unless new BMI is calculated
-if st.button("Calculate BMI", use_container_width=True, type="primary"):
-    if height_m <= 0:
-        st.error("Height must be greater than zero.")
+if calculate:
+    try:
+        reading = validate('bmi_log', [{'recorded_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'height_cm': height_m * 100, 'weight_kg': weight_for_calc}])[0]
+        append_records('bmi_log', [reading])
+    except (ValueError, StorageError) as error:
+        st.error(str(error))
     else:
         bmi = weight_for_calc / (height_m ** 2)
         bmi_rounded = round(bmi, 1)
@@ -218,6 +213,8 @@ if st.button("Calculate BMI", use_container_width=True, type="primary"):
             category = "Obese"
             color = "#f87171"
             tip = "💡 A BMI above 30 is associated with increased health risks. Speaking with a doctor is a good next step."
+
+        tip = "Your BMI is one data point, not a grade, diagnosis, or measure of your overall health."
 
         healthy_low = round(18.5 * (height_m ** 2), 1)
         healthy_high = round(24.9 * (height_m ** 2), 1)
@@ -241,25 +238,34 @@ if st.button("Calculate BMI", use_container_width=True, type="primary"):
         st.session_state.show_email_form = False
 
 
+# Restore derives the latest result from the saved metric inputs.
+restored = frame('bmi_log').sort_values('recorded_at', kind='stable')
+if restored.empty:
+    st.session_state.bmi = None
+else:
+    latest = restored.iloc[-1]
+    st.session_state.bmi = round(float(latest.bmi), 1)
+    st.session_state.category = 'Underweight' if latest.bmi < 18.5 else 'Normal Weight' if latest.bmi < 25 else 'Overweight' if latest.bmi < 30 else 'Obese'
+    st.session_state.healthy_low = round(18.5 * (latest.height_cm / 100) ** 2, 1)
+    st.session_state.healthy_high = round(24.9 * (latest.height_cm / 100) ** 2, 1)
+    st.session_state.weight_unit = 'kg'
+    st.session_state.tip = 'BMI is one data point, not a diagnosis.'
+
 # --- Result Card ---
 # Uses is not None so it won't show the card before a BMI is calculated
 if st.session_state.bmi is not None:
-    st.markdown(f"""
-        <div class="bmi-card">
-            <div class="bmi-result" style="color: {st.session_state.color};">{st.session_state.bmi}</div>
-            <div class="bmi-label" style="color: {st.session_state.color};">{st.session_state.category}</div>
-            <div class="bmi-range-bar"></div>
-            <div class="range-labels">
-                <span>Underweight<br/>&lt;18.5</span>
-                <span>Normal<br/>18.5–24.9</span>
-                <span>Overweight<br/>25–29.9</span>
-                <span>Obese<br/>≥30</span>
-            </div>
-            <div class="tip-box">{st.session_state.tip}</div>
-        </div>
-    """, unsafe_allow_html=True)
-
-    st.info(f"**Healthy weight range for your height:** {st.session_state.healthy_low} – {st.session_state.healthy_high} {st.session_state.weight_unit}")
+    history = frame('bmi_log').sort_values('recorded_at', kind='stable')
+    latest_bmi = float(history.iloc[-1].bmi) if not history.empty else st.session_state.bmi
+    delta = f"{latest_bmi - float(history.iloc[-2].bmi):+.1f} since previous reading" if len(history) > 1 else None
+    st.metric("BMI", f"{latest_bmi:.1f}", delta=delta, delta_color="off")
+    st.caption("Underweight" if latest_bmi < 18.5 else "Healthy range" if latest_bmi < 25 else "Overweight" if latest_bmi < 30 else "Obesity")
+    low, high = min(10, latest_bmi - 2), max(40, latest_bmi + 2)
+    bands = [(low, 18.5, '#93c5fd'), (18.5, 25, '#6ee7b7'), (25, 30, '#fde68a'), (30, high, '#fca5a5')]
+    segments = ''.join(f'<div style="width:{(end-start)/(high-low)*100}%;background:{color};height:18px"></div>' for start,end,color in bands)
+    marker = (latest_bmi-low)/(high-low)*100
+    st.markdown(f'<div role="img" aria-label="BMI {latest_bmi:.1f}, on four adult BMI bands" style="position:relative;margin:24px 0 12px"><div style="display:flex;border-radius:8px;overflow:hidden">{segments}</div><div style="position:absolute;left:{marker}%;top:-17px;transform:translateX(-50%);font-size:24px">▼</div></div>', unsafe_allow_html=True)
+    st.caption("Underweight <18.5 · Healthy range 18.5–<25 · Overweight 25–<30 · Obesity ≥30")
+    st.info("Your result is one data point, not a grade, diagnosis, or measure of your overall health.")
     st.markdown("")
 
     # --- Workout Plan Button ---
@@ -271,7 +277,7 @@ if st.session_state.bmi is not None:
         category = st.session_state.category
         st.markdown("### Suggested Workout Plans")
 
-       
+
         if category == "Underweight":
             workout_links = [
                 ("📋 3 Day Full Body Routine", f"{BASE_URL}/FullBody"),
@@ -336,3 +342,18 @@ if st.session_state.bmi is not None:
 # --- Disclaimer ---
 st.markdown("")
 st.caption("⚠️ BMI is a screening tool, not a medical diagnosis. It does not account for muscle mass, bone density, or age.")
+
+st.subheader("Reading history")
+st.caption("Reading times are shown in UTC.")
+history = frame('bmi_log').sort_values('recorded_at', kind='stable')
+if history.empty:
+    st.info("Calculate your first reading to start your history.")
+else:
+    st.dataframe(history, hide_index=True)
+    if len(history) > 1:
+        history['recorded_at'] = __import__('pandas').to_datetime(history.recorded_at)
+        st.line_chart(history, x='recorded_at', y='bmi')
+log_controls('bmi_log', editable=True)
+render_guides()
+from assistant.widget import assistant_widget
+assistant_widget()

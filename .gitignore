@@ -5,3 +5,6 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
+images/products/
+feedback_data/
+training_export/

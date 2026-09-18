@@ -8,6 +8,9 @@ st.set_page_config(
     layout="centered"
 )
 
+st.sidebar.caption("This app is an educational tool, not medical advice.")
+
+
 # --- Custom Styles ---
 st.markdown("""
     <style>

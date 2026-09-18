@@ -1,0 +1,21 @@
+"""Approximate reference macros per 100 g; preparation is part of the name."""
+FOODS = {
+    'Chicken breast, cooked, skinless': (31.0, 0.0, 3.6),
+    'White rice, cooked': (2.7, 28.2, 0.3),
+    'Oats, dry': (13.2, 67.7, 6.5),
+    'Egg, whole, hard-boiled': (12.6, 1.1, 10.6),
+    'Milk, whole': (3.2, 4.8, 3.3),
+    'Peanut butter, smooth': (25.0, 20.0, 50.0),
+    'Olive oil': (0.0, 0.0, 100.0),
+    'Greek yogurt, plain, nonfat': (10.3, 3.6, 0.4),
+    'Banana, raw, peeled': (1.1, 22.8, 0.3),
+    'Apple, raw, with skin': (0.3, 13.8, 0.2),
+    'Broccoli, cooked, drained': (2.4, 7.2, 0.4),
+    'Potato, baked, with skin': (2.5, 21.2, 0.1),
+    'Salmon, Atlantic, cooked': (22.1, 0.0, 12.4),
+    'Tuna, canned in water, drained': (25.5, 0.0, 0.8),
+    'Lentils, cooked': (9.0, 20.1, 0.4),
+    'Black beans, cooked': (8.9, 23.7, 0.5),
+    'Almonds, raw': (21.2, 21.6, 49.9),
+    'Tofu, firm': (17.3, 2.8, 8.7),
+}

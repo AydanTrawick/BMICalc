@@ -11,6 +11,7 @@ from openai import (
 )
 
 from services.email_service import send_meal_plan_email
+from services.ui import render_chat_widget
 from services.meal_plan_services import generate_meal_plan
 from services.pdf_service import build_meal_plan_pdf
 
@@ -26,6 +27,12 @@ st.set_page_config(
     page_icon="🍽️",
     layout="wide",
 )
+
+from services.browser_auth import restore_session
+restore_session()
+
+st.sidebar.caption("This app is an educational tool, not medical advice.")
+
 
 
 
@@ -94,15 +101,15 @@ st.markdown(
         .meal-card {
             padding: 1.1rem;
             margin-bottom: 0.9rem;
-            background: white;
-            border: 1px solid #e1e8e4;
+            background: #172033;
+            border: 1px solid #334155;
             border-left: 5px solid #218f57;
             border-radius: 14px;
             box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
         }
 
         .meal-type {
-            color: #218f57;
+            color: #6ee7b7;
             font-size: 0.8rem;
             font-weight: 800;
             letter-spacing: 0.05rem;
@@ -114,27 +121,27 @@ st.markdown(
             margin-bottom: 0.4rem;
             font-size: 1.15rem;
             font-weight: 800;
-            color: black;
+            color: #f8fafc;
         }
 
         .macro-line {
-            color: #506057;
+            color: #cbd5e1;
             font-size: 0.9rem;
         }
 
         .disclaimer {
             padding: 1rem;
             margin-top: 1rem;
-            color: #665620;
-            background: #fff8dd;
-            border: 1px solid #f2d97f;
+            color: #fde68a;
+            background: #332b18;
+            border: 1px solid #78612c;
             border-radius: 12px;
         }
 
         div[data-testid="stForm"] {
             padding: 1.3rem;
-            background: white;
-            border: 1px solid #e1e8e4;
+            background: #172033;
+            border: 1px solid #334155;
             border-radius: 18px;
         }
 
@@ -142,7 +149,7 @@ st.markdown(
         div[data-testid="stForm"] label,
         div[data-testid="stForm"] label p,
         div[data-testid="stForm"] div[data-testid="stWidgetLabel"] p {
-            color: black;
+            color: #f8fafc;
         }
 
         div.stButton > button,
@@ -725,3 +732,6 @@ if st.session_state.generated_meal_plan:
     display_meal_plan(
         st.session_state.generated_meal_plan
     )
+
+from assistant.widget import assistant_widget
+assistant_widget()

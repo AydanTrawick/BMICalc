@@ -1,6 +1,14 @@
 import streamlit as st
 
+from services.ui import render_chat_widget
+
 st.set_page_config(page_title="Low Volume Hypertrophy", page_icon="💪", layout="centered")
+
+from services.browser_auth import restore_session
+restore_session()
+
+st.sidebar.caption("This app is an educational tool, not medical advice.")
+
 
 st.page_link("BMI2.py", label="← Back to Home")
 
@@ -97,3 +105,6 @@ for day in schedule:
 
 st.divider()
 st.caption("⚠️ Always warm up before training")
+
+from assistant.widget import assistant_widget
+assistant_widget()

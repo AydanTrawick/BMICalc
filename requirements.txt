@@ -1,3 +1,14 @@
-streamlit
+streamlit>=1.58
 openai
 reportlab
+psycopg[binary]
+
+pandas
+certifi
+anthropic>=0.49,<1
+pydantic>=2.8,<3
+pytest>=8,<10
+elevenlabs>=2,<3
+python-dateutil>=2.9,<3
+boto3>=1.34,<2
+Pillow>=10,<12

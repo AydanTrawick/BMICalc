@@ -3,6 +3,8 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from services.ui import render_chat_widget
+
 
 
 st.set_page_config(
@@ -10,6 +12,12 @@ st.set_page_config(
     page_icon="🧬",
     layout="wide",
 )
+
+from services.browser_auth import restore_session
+restore_session()
+
+st.sidebar.caption("This app is an educational tool, not medical advice.")
+
 
 
 # CUSTOM CSS
@@ -427,3 +435,6 @@ st.caption(
     "Research scores are simple educational ratings for this app, not official "
     "medical or regulatory rankings."
 )
+
+from assistant.widget import assistant_widget
+assistant_widget()
