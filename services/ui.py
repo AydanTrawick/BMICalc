@@ -198,7 +198,7 @@ def render_home_user_icon() -> None:
         st.rerun()
 
 
-def render_auth_panel() -> None:
+def render_auth_panel(key_prefix: str = "") -> None:
     st.markdown('<div id="account"></div>', unsafe_allow_html=True)
     user = current_user()
 
@@ -215,7 +215,7 @@ def render_auth_panel() -> None:
             unsafe_allow_html=True,
         )
 
-        if st.button("Log out", use_container_width=True):
+        if st.button("Log out", use_container_width=True, key=f"{key_prefix}firstrep_logout"):
             try:
                 sign_out()
                 st.rerun()
@@ -240,7 +240,7 @@ def render_auth_panel() -> None:
     login_tab, create_tab = st.tabs(["Log in", "Create account"])
 
     with login_tab:
-        with st.form("firstrep_login_form"):
+        with st.form(f"{key_prefix}firstrep_login_form"):
             email = st.text_input("Email", placeholder="you@example.com")
             password = st.text_input("Password", type="password")
             submitted = st.form_submit_button("Log in", use_container_width=True)
@@ -256,7 +256,7 @@ def render_auth_panel() -> None:
                 st.error("Could not reach account storage. Try again shortly.")
 
     with create_tab:
-        with st.form("firstrep_create_account_form"):
+        with st.form(f"{key_prefix}firstrep_create_account_form"):
             display_name = st.text_input("Display name", placeholder="Aydan")
             email = st.text_input("Email address", placeholder="you@example.com")
             password = st.text_input("Create password", type="password")
@@ -278,6 +278,31 @@ def render_auth_panel() -> None:
                 st.error(str(error))
             except DatabaseError:
                 st.error("Could not reach account storage. Try again shortly.")
+
+
+def require_login_access() -> dict:
+    user = current_user()
+
+    if not user:
+        try:
+            configured = is_auth_configured()
+        except st.errors.StreamlitSecretNotFoundError:
+            configured = False
+
+        if not configured:
+            st.error(
+                "This feature needs Neon auth. Add DATABASE_URL or "
+                "NEON_DATABASE_URL to .streamlit/secrets.toml."
+            )
+            render_chat_widget()
+            st.stop()
+
+        st.info("Create an account or log in to use this feature.")
+        render_auth_panel()
+        render_chat_widget()
+        st.stop()
+
+    return user
 
 
 def require_admin_access() -> dict:

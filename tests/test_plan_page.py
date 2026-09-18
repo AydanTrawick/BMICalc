@@ -9,7 +9,21 @@ from tests.test_extract import response
 
 
 def open_page():
-    return AppTest.from_file('BMI2.py').run(timeout=30).switch_page('pages/AI_Plan_Builder.py').run(timeout=30)
+    app = AppTest.from_file('BMI2.py')
+    app.session_state['firstrep_user'] = {
+        'id': 'plan-builder-test-user', 'display_name': 'Test User',
+        'email': 'plan-builder@example.com', 'role': 'customer',
+    }
+    app.session_state['_auth_checked_at'] = 1
+    return app.run(timeout=30).switch_page('pages/AI_Plan_Builder.py').run(timeout=30)
+
+
+def test_guest_is_blocked_and_sees_login_prompt():
+    app = AppTest.from_file('BMI2.py').run(timeout=30).switch_page('pages/AI_Plan_Builder.py').run(timeout=30)
+    assert not app.exception
+    assert any('log in' in info.value.lower() for info in app.info)
+    assert not app.chat_input
+    assert 'messages' not in app.session_state
 
 
 def test_page_missing_key_has_setup_message_and_no_crash():

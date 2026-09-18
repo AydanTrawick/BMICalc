@@ -126,6 +126,11 @@ def _pending_card(user_id):
 @st.fragment
 def chat_body():
     user_id = _user_id()
+    if not user_id:
+        st.info('Create an account or log in to use the Training Assistant.')
+        from services.ui import render_auth_panel
+        render_auth_panel(key_prefix='training_assistant_')
+        return
     try:
         agent.initialize(st.session_state, user_id)
     except PlanAgentError as error:
@@ -134,8 +139,6 @@ def chat_body():
             _refresh()
         return
     st.caption('Ask about training, review your assistant activity history, or confirm changes to your logs and saved plan.')
-    if not user_id:
-        st.info('Sign in from Home to read or change saved activities. General training chat is available here as a guest.')
     st.toggle('Speak replies', value=st.session_state.training_speak_enabled, key='training_speak_toggle',
               on_change=lambda: st.session_state.update(training_speak_enabled=st.session_state.training_speak_toggle))
     if not st.session_state.training_speak_enabled:

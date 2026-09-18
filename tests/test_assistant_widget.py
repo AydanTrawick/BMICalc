@@ -53,6 +53,24 @@ def test_dialog_confirmation_edit_and_fragment_navigation_state():
         assert not app.exception and len(app.session_state['training_messages']) >= 3
 
 
+GUEST_SOURCE = '''
+import streamlit as st
+from assistant.widget import assistant_widget
+st.session_state['_auth_checked_at'] = 1
+st.title('Test page')
+assistant_widget()
+'''
+
+
+def test_guest_sees_login_prompt_instead_of_chat():
+    app = AppTest.from_string(GUEST_SOURCE).run(timeout=30)
+    app.button(key='training_assistant_launcher').click().run(timeout=30)
+    assert not app.exception
+    assert any('log in' in info.value.lower() for info in app.info)
+    assert not app.chat_input
+    assert 'training_messages' not in app.session_state
+
+
 def test_widget_does_not_call_providers_when_closed():
     with patch('assistant.widget.claude_client') as client, patch('assistant.widget.speech_audio') as speech:
         app = AppTest.from_string(SOURCE).run(timeout=30)

@@ -8,11 +8,13 @@ from plan_agent.config import DISCLAIMER, MAX_GENERATIONS, PlanAgentError, secre
 from plan_agent.render import render_plan
 from plan_agent.transcribe import transcribe_audio
 from services.browser_auth import restore_session
+from services.ui import require_login_access
 
 st.set_page_config(page_title='AI Plan Builder', page_icon='🎙️', layout='wide')
 restore_session()
-initialize_state(st.session_state)
 st.page_link('BMI2.py', label='← Back to Home')
+require_login_access()
+initialize_state(st.session_state)
 st.title('AI Plan Builder')
 st.caption('Speak or type a request to build a meal or workout plan, then refine it together.')
 st.info('\n\n'.join(DISCLAIMER))
