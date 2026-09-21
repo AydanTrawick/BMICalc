@@ -1,12 +1,30 @@
 from unittest.mock import Mock, patch
 
-from assistant.speech import speech_audio, spoken_summary, _cached_audio
+from assistant.speech import speech_audio, spoken_text, _cached_audio
 
 
-def test_spoken_summary_is_short_and_does_not_read_a_full_plan():
-    result = spoken_summary('Saved your run. You ran three miles. ' + 'Extra details. ' * 50)
-    assert result == 'Saved your run. You ran three miles.' and len(result) <= 300
-    assert len(spoken_summary('A' * 1000)) <= 300
+def test_spoken_text_preserves_the_entire_long_reply():
+    reply = 'Saved your run. You ran three miles. ' + 'Extra details. ' * 50 + 'Final sentence.'
+    assert spoken_text(reply) == reply
+    assert spoken_text('A' * 1000) == 'A' * 1000
+
+
+def test_spoken_text_removes_formatting_without_dropping_content():
+    assert spoken_text('## Plan\n**Start** with [walking](https://example.com).\n'
+                       '```text\nThen rest.\n```\nFinish slowly.') == (
+        'Plan Start with walking. Then rest. Finish slowly.')
+
+
+def test_long_reply_is_sent_in_full_and_all_audio_chunks_are_retained():
+    _cached_audio.clear()
+    reply = 'Training details. ' * 500 + 'This is the final sentence.'
+    client = Mock()
+    client.text_to_speech.convert.return_value = iter([b'beginning', b'middle', b'end'])
+    with patch('assistant.speech.secret_key', return_value='mock-key'), \
+         patch('assistant.speech.ElevenLabs', return_value=client):
+        assert speech_audio(reply, 'long-reply-user') == (b'beginningmiddleend', None)
+        assert client.text_to_speech.convert.call_args.kwargs['text'] == reply
+    _cached_audio.clear()
 
 
 def test_tts_disabled_missing_config_failure_and_cache():
